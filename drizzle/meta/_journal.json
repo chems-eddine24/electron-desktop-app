@@ -8,6 +8,20 @@
       "when": 1778248133633,
       "tag": "0000_added tasks and projects table",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778303883432,
+      "tag": "0001_altered title column type",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778324284732,
+      "tag": "0002_added unarchive column",
+      "breakpoints": true
     }
   ]
 }
