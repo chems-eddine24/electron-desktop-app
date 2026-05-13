@@ -1,0 +1,41 @@
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 12px;
+    border-radius: 12px;
+    background: #111;
+    border: 1px solid #333;
+}
+
+.task-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+}
+
+.task-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.task-actions button {
+    background: #4f46e5;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.button-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: purple;
+    font-size: 16px;
+    cursor: pointer;
+}
