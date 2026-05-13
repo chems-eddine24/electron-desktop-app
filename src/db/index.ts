@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
+import 'dotenv/config'
 import pg from "pg";
-
+console.log(process.env.DATABASE_URL);
 const { Pool } = pg;
 
 const pool = new Pool({
@@ -8,4 +9,4 @@ const pool = new Pool({
 });
 
 export const db = drizzle(pool);
-
+export type DrizzleDb = typeof db;
