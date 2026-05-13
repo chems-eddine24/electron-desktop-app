@@ -1,14 +1,14 @@
 {
   "name": "todo-app",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "electron/main.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "electron": "electron .",
+    "electron": "tsx electron/main.ts",
     "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "tsc -b && vite build",
+    "build": "rolldown -c",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -18,11 +18,12 @@
     "node-postgres": "^0.6.2",
     "pg": "^8.20.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^24.12.3",
+    "@types/node": "^24.12.4",
     "@types/pg": "^8.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -30,14 +31,18 @@
     "concurrently": "^9.2.1",
     "drizzle-kit": "^0.31.10",
     "electron": "^42.0.0",
+    "esbuild": "^0.28.0",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "process": "^0.11.10",
     "tsx": "^4.21.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10",
+    "vite-plugin-electron": "^0.29.1",
+    "vite-plugin-electron-renderer": "^0.14.7",
     "wait-on": "^9.0.5"
   }
 }
