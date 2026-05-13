@@ -1,18 +1,18 @@
+import { useState } from 'react'
+import { TaskBar } from './components/TaskBar'
+import type { Task } from '../src/db/schema/tasks.ts'
 
-import './App.css'
+export default function App() {
+    const [tasks, setTasks] = useState<Task[]>([])
 
-
-
-const App = () => {
-  return (
-      <div>
-        <h1 className={"header-1"}>
-          Todo App
-        </h1>
-      </div>
-  )
+    return (
+        <div>
+            <TaskBar onTaskAdded={task => setTasks(prev => [task, ...prev])} />
+            <ul>
+                {tasks.map(task => (
+                    <li key={task.task_id}>{task.title} — {task.status}</li>
+                ))}
+            </ul>
+        </div>
+    )
 }
-
-
-
-export default App
