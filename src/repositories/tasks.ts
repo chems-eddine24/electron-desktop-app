@@ -1,7 +1,7 @@
-import {type DrizzleDb} from '../db/index.ts'
+import { db } from '../db/index.ts'
 import { tasks } from '../db/schema/tasks.ts'
 import { eq } from 'drizzle-orm'
-import { type createTaskData} from "../shared/schemas/schema.task.ts";
+import { type createTaskData} from "../shared/schemas/tasks.ts";
 
 
 type UpdateInput = {
@@ -12,13 +12,9 @@ type UpdateInput = {
     updated_at?: string
 }
 export class TaskRepo{
-    private db: DrizzleDb
-    constructor(db: DrizzleDb) {
-        this.db = db;
-    }
     async createTask(task: createTaskData) {
         try {
-            const result = await this.db
+            const result = await db
                 .insert(tasks)
                 .values({
                     title:       task.title,
@@ -35,7 +31,7 @@ export class TaskRepo{
     }
 
     async  updateTask(title: string, data: UpdateInput) {
-        const stm = await this.db.update(tasks).set({
+        const stm = await db.update(tasks).set({
             ...data,
             updated_at: new Date()
         }).where(eq(tasks.title, title)).returning()
@@ -43,16 +39,16 @@ export class TaskRepo{
     }
 
     async  deleteTask(title: string) {
-        const stm = await this.db.delete(tasks).where(eq(tasks.title, title)).returning()
+        const stm = await db.delete(tasks).where(eq(tasks.title, title)).returning()
         return stm[0]
     }
 
     async  getTaskByTitle(title: string) {
-        return this.db.select().from(tasks).where(eq(tasks.title, title));
+        return db.select().from(tasks).where(eq(tasks.title, title));
     }
 
     async  getAllTasks() {
-        return this.db.select().from(tasks);
+        return db.select().from(tasks);
     }
 
 }
