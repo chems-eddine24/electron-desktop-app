@@ -6,6 +6,10 @@
   ],
   "compilerOptions": {
     "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "allowImportingTsExtensions": true,
     "strict": true
   }
