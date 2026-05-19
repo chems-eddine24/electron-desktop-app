@@ -13850,7 +13850,6 @@ var require_cli_options = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 })();
 //#endregion
 //#region src/db/index.ts
-console.log(process.env.DATABASE_URL);
 var { Pool } = esm_default;
 var pool = new Pool({ connectionString: process.env.DATABASE_URL });
 var db = drizzle(pool);
@@ -13896,20 +13895,106 @@ var TaskRepo = class {
 	}
 };
 //#endregion
+//#region src/db/schema/projects.ts
+var projects = pgTable("projects", {
+	project_id: serial("project_id").primaryKey().notNull(),
+	title: text("title").notNull(),
+	active: boolean("active").notNull(),
+	archive: boolean("archive").notNull(),
+	created_at: timestamp("created_at").notNull().defaultNow(),
+	deadline: timestamp("deadline")
+});
+//#endregion
+//#region src/repositories/projects.ts
+var ProjectRepo = class {
+	async create(data) {
+		return (await db.insert(projects).values({
+			title: data.title,
+			active: data.active ?? true,
+			archive: data.archive ?? false,
+			unarchive: data.unarchive ?? false,
+			deadline: data.deadline ?? null,
+			created_at: /* @__PURE__ */ new Date()
+		}).returning())[0];
+	}
+	async update(project_id, data) {
+		const [updatedProject] = await db.update(projects).set({ ...data }).where(eq(projects.project_id, project_id)).returning();
+		return updatedProject;
+	}
+	async findById(project_id) {
+		return (await db.select().from(projects).where(eq(projects.project_id, project_id)).limit(1))[0] ?? null;
+	}
+	async findAll() {
+		return db.select().from(projects);
+	}
+	async searchProject(title) {
+		const [project] = await db.select().from(projects).where(eq(projects.title, title));
+		return project ?? null;
+	}
+	async deleteProject(project_id) {
+		return db.delete(projects).where(eq(projects.project_id, project_id));
+	}
+	async listActive() {
+		return db.select().from(projects).where(eq(projects.active, true));
+	}
+	async listArchived() {
+		return db.select().from(projects).where(eq(projects.archive, true));
+	}
+};
+//#endregion
+//#region src/services/projects.ts
+var ProjectService = class {
+	project;
+	constructor(project) {
+		this.project = project;
+	}
+	async create(data) {
+		const trimmedName = data.title.trim();
+		if (!trimmedName) throw new Error("Project name is required");
+		if (await this.project.searchProject(trimmedName)) throw new Error("Project already exists");
+		return this.project.create(data);
+	}
+	async update(data) {
+		const trimmedName = data.title?.trim();
+		if (!trimmedName) throw new Error("Project name is required");
+		const exists = await this.project.searchProject(trimmedName);
+		if (exists && exists.project_id !== data.project_id) throw new Error("Another Project uses this name");
+		return this.project.update(data.project_id, data);
+	}
+	async delete(project_id) {
+		if (!await this.project.findById(project_id)) throw new Error("Project does not exist");
+		return this.project.deleteProject(project_id);
+	}
+	async listActive() {
+		return this.project.listActive();
+	}
+	async listArchived() {
+		return this.project.listArchived();
+	}
+};
+//#endregion
 //#region src/shared/ipc_channels.ts
 var IPC = {
 	TASKS_GET_ALL: "tasks:getAll",
 	TASKS_CREATE: "tasks:create",
 	TASKS_UPDATE: "tasks:update",
-	TASKS_DELETE: "tasks:delete"
+	TASKS_DELETE: "tasks:delete",
+	PROJECTS_GET_ALL: "projects:getAll",
+	PROJECTS_CREATE: "projects:create",
+	PROJECTS_UPDATE: "projects:update",
+	PROJECTS_DELETE: "projects:delete"
 };
 //#endregion
 //#region electron/router.ts
-function registerIpcHandlers({ taskService }) {
+function registerIpcHandlers({ taskService, projectService }) {
 	ipcMain.handle(IPC.TASKS_GET_ALL, () => taskService.getAll());
 	ipcMain.handle(IPC.TASKS_CREATE, (_, payload) => taskService.createTask(payload));
 	ipcMain.handle(IPC.TASKS_UPDATE, (_, payload) => taskService.updateTask(payload));
 	ipcMain.handle(IPC.TASKS_DELETE, (_, title) => taskService.deleteTask(title));
+	ipcMain.handle(IPC.PROJECTS_GET_ALL, () => projectService.listActive());
+	ipcMain.handle(IPC.PROJECTS_CREATE, (_, payload) => projectService.create(payload));
+	ipcMain.handle(IPC.PROJECTS_DELETE, (_, project_id) => projectService.delete(project_id));
+	ipcMain.handle(IPC.PROJECTS_UPDATE, (_, payload) => projectService.update(payload));
 }
 //#endregion
 //#region electron/main.ts
@@ -13933,7 +14018,10 @@ function createWindow() {
 }
 app.disableHardwareAcceleration();
 app.whenReady().then(() => {
-	registerIpcHandlers({ taskService: new TaskService(new TaskRepo()) });
+	registerIpcHandlers({
+		taskService: new TaskService(new TaskRepo()),
+		projectService: new ProjectService(new ProjectRepo())
+	});
 	createWindow();
 });
 console.log("🔥 MAIN PROCESS STARTED");
