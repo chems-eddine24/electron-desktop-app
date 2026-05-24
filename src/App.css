@@ -1,41 +1,232 @@
-.task-form {
+* {
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Inter, system-ui, Arial, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+.shell {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 100vh;
+}
+
+.sidebar {
+    background: #111827;
+    border-right: 1px solid #243041;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panelHeader, .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.panelHeader h1, .topbar h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.panelHeader p, .topbar p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.sectionTitle {
+    margin-bottom: 12px;
+    color: #cbd5e1;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.list {
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    padding: 12px;
-    border-radius: 12px;
-    background: #111;
-    border: 1px solid #333;
 }
 
-.task-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 16px;
+.listItem, .taskItem {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #243041;
+    background: #0b1220;
+    color: inherit;
+    border-radius: 14px;
+    padding: 14px;
 }
 
-.task-actions {
+.listItem {
+    cursor: pointer;
+}
+
+.listItem.active {
+    border-color: #4f46e5;
+}
+
+.listItemTitle {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.listItemSub {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.card {
+    background: #111827;
+    border: 1px solid #243041;
+    border-radius: 18px;
+    padding: 18px;
+    min-height: 0;
+}
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 20px;
+    min-height: 0;
+}
+
+.form {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 14px;
 }
 
-.task-actions button {
-    background: #4f46e5;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
+label span {
+    display: block;
+    margin-bottom: 6px;
+    color: #cbd5e1;
+    font-size: 13px;
 }
 
-.button-input {
-    background: transparent;
-    border: none;
+input, textarea, select {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    background: #0b1220;
+    color: #e2e8f0;
+    padding: 12px;
     outline: none;
-    color: purple;
-    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.primaryBtn, .secondaryBtn {
+    border: 0;
+    border-radius: 12px;
+    padding: 11px 14px;
     cursor: pointer;
+}
+
+.primaryBtn {
+    background: #4f46e5;
+    color: white;
+}
+
+.secondaryBtn {
+    background: #1f2937;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+}
+
+.primaryBtn:disabled, .secondaryBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.full {
+    width: 100%;
+}
+
+.emptyBox {
+    border: 1px dashed #334155;
+    border-radius: 16px;
+    padding: 20px;
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.emptyBox.tall {
+    min-height: 220px;
+    justify-content: center;
+}
+
+.taskItem {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.taskTop {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.tagRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    background: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.status {
+    height: fit-content;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.status-todo { background: #312e81; }
+.status-in_progress { background: #854d0e; }
+.status-done { background: #14532d; }
+
+.hint {
+    margin-top: 16px;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
 }
