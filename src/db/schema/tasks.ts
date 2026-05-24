@@ -6,7 +6,7 @@ export const tasks = pgTable("tasks", {
     description: text("description").notNull(),
     status: text("status").default("doing"),
     created_at: timestamp("created_at").notNull().defaultNow(),
-    updated_at: timestamp("updated_at").defaultNow(),
+    updated_at: timestamp("updated_at"),
 
 });
 
