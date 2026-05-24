@@ -1,8 +1,10 @@
-import dotenv from 'dotenv'
+
 import path from 'path';
 import { app, BrowserWindow} from "electron";
 import { TaskService } from "../src/services/tasks.ts";
 import { TaskRepo } from "../src/repositories/tasks.ts"
+import {ProjectRepo} from "../src/repositories/projects.ts"
+import {ProjectService} from "../src/services/projects.ts"
 import { fileURLToPath } from "url";
 import {registerIpcHandlers} from "./router.ts";
 
@@ -11,7 +13,7 @@ import {registerIpcHandlers} from "./router.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '../.env'), debug:true })
+
 function createWindow() {
     const win = new BrowserWindow({
         width: 1200,
@@ -33,7 +35,9 @@ app.disableHardwareAcceleration()
 app.whenReady().then(() => {
     const taskRepo    = new TaskRepo()
     const taskService = new TaskService(taskRepo)
-    registerIpcHandlers({ taskService })
+    const projectRepo = new ProjectRepo()
+    const projectService = new ProjectService(projectRepo)
+    registerIpcHandlers({ taskService, projectService })
     createWindow();
 });
 
