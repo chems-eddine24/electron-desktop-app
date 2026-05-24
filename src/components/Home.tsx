@@ -67,7 +67,7 @@ export default function Home() {
         const loadTasks = async () => {
             try {
                 const res = await window.electronApi.tasks.getAllTasks();
-                setTasks(Array.isArray(res) ? res : []); // ✅ guard against non-array
+                setTasks(Array.isArray(res) ? res : []);
             } catch (err) {
                 console.error(err);
             }
@@ -86,7 +86,7 @@ export default function Home() {
     }, [tasks, selectedProjectId]);
 
     const handleCreateProject = () => {
-        setShowModal(true); // open modal instead of prompt()
+        setShowModal(true);
     };
     const handleConfirm = async () => {
         if (!projectName.trim()) return;
@@ -153,7 +153,7 @@ export default function Home() {
             project_id: selectedProjectId,
         };
 
-        setTasks((prev) => [...(Array.isArray(prev) ? prev : []), newTask]); // ✅
+        setTasks((prev) => [...(Array.isArray(prev) ? prev : []), newTask]);
         setDraft(emptyDraft);
         await window.electronApi.tasks.createTask({
             title: newTask.title,
