@@ -1,18 +1,15 @@
-import { useState } from 'react'
-import { TaskBar } from './components/TaskBar'
-import type { Task } from '../src/db/schema/tasks.ts'
 
-export default function App() {
-    const [tasks, setTasks] = useState<Task[]>([])
+import './App.css'
+
+import Home from "./components/Home.tsx";
+
+function App() {
 
     return (
         <div>
-            <TaskBar onTaskAdded={task => setTasks(prev => [task, ...prev])} />
-            <ul>
-                {tasks.map(task => (
-                    <li key={task.task_id}>{task.title} — {task.status}</li>
-                ))}
-            </ul>
+           <Home />
         </div>
     )
 }
+
+export default App
