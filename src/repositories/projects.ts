@@ -1,33 +1,32 @@
-import { eq, ilike } from 'drizzle-orm'
-import { projects, type Project } from '../db/schema/projects'
-import type { DrizzleDb } from '../db/index'
+import { eq } from 'drizzle-orm'
+import { projects, type Project } from '../db/schema/projects.ts'
+import  { db } from '../db/index.ts'
+import type {UpdateProjectData, CreateProjectData} from '../shared/schemas/projects.ts'
 
 
 export class ProjectRepo {
-    private db: DrizzleDb
-
-    constructor(db: DrizzleDb) {
-        this.db = db
-    }
-
-    async create(data: Project): Promise<Project> {
-        const result = await this.db
+    async create(data: CreateProjectData): Promise<Project> {
+        const result = await db
             .insert(projects)
             .values({
-                title:      data.title,
-                active:     data.active ?? true,
-                archive:    data.archive ?? false,
-                unarchive:     data.unarchive ?? false,
-                deadline:   data.deadline ?? null,
+                title: data.title,
+                active: data.active ?? true,
+                archive: data.archive ?? false,
                 created_at: new Date(),
+                description: data.description ?? '',
             })
             .returning()
 
         return result[0]
     }
 
+    async update(project_id: number, data: UpdateProjectData) {
+        const [updatedProject] = await db.update(projects).set({...data, updated_at: new Date()}).where(eq(projects.project_id, project_id)).returning()
+        return updatedProject
+    }
+
     async findById(project_id: number): Promise<Project | null> {
-        const result = await this.db
+        const result = await db
             .select()
             .from(projects)
             .where(eq(projects.project_id, project_id))
@@ -36,16 +35,21 @@ export class ProjectRepo {
         return result[0] ?? null
     }
 
-    async findAll(): Promise<Project[]> {
-        return this.db
-            .select()
-            .from(projects)
+
+    async searchProject(project_id: number) {
+        const [project] = await db.select().from(projects).where(eq(projects.project_id, project_id
+        ))
+        return project ?? null
     }
 
-    async search(title: string): Promise<Project[]> {
-        return this.db
-            .select()
-            .from(projects)
-            .where(ilike(projects.title, `%${title}%`))
+    async deleteProject(project_id: number) {
+        return db.delete(projects).where(eq(projects.project_id, project_id))
+    }
+
+    async listActive(){
+        return db.select().from(projects).where(eq(projects.active, true))
+    }
+    async listArchived(){
+        return db.select().from(projects).where(eq(projects.archive, true))
     }
 }
