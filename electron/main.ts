@@ -6,9 +6,8 @@ import { TaskRepo } from "../src/repositories/tasks.ts"
 import {ProjectRepo} from "../src/repositories/projects.ts"
 import {ProjectService} from "../src/services/projects.ts"
 import { fileURLToPath } from "url";
-import {registerIpcHandlers} from "./router.ts";
-
-
+import {projectIpcHandlers} from "./controllers/projects.ts";
+import {taskIpcHandlers} from "./controllers/tasks.ts";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -37,7 +36,8 @@ app.whenReady().then(() => {
     const taskService = new TaskService(taskRepo)
     const projectRepo = new ProjectRepo()
     const projectService = new ProjectService(projectRepo)
-    registerIpcHandlers({ taskService, projectService })
+    taskIpcHandlers({taskService})
+    projectIpcHandlers({projectService})
     createWindow();
 });
 
