@@ -4,15 +4,14 @@ console.log("Preload loaded")
 contextBridge.exposeInMainWorld('electronApi', {
     tasks: {
         getAllTasks: ()              => ipcRenderer.invoke(IPC.TASKS_GET_ALL),
-        createTask: (payload: unknown) => ipcRenderer.invoke(IPC.TASKS_CREATE, payload),
+        createTask: (payload: unknown, project_id: string) => ipcRenderer.invoke(IPC.TASKS_CREATE, payload, project_id),
         updateTask: (payload: unknown) => ipcRenderer.invoke(IPC.TASKS_UPDATE, payload),
-        deleteTask: (title: string)    => ipcRenderer.invoke(IPC.TASKS_DELETE, title),
+        deleteTask: (project_id: string)    => ipcRenderer.invoke(IPC.TASKS_DELETE, project_id),
     },
     projects: {
         getAllProjects: () => ipcRenderer.invoke(IPC.PROJECTS_GET_ALL),
         createProject: (payload: unknown) => ipcRenderer.invoke(IPC.PROJECTS_CREATE, payload),
-        updateProject: (project_id: number, payload : {archive?: boolean; title?: string; active?: boolean, description?: string}) => ipcRenderer.invoke(IPC.PROJECTS_UPDATE, project_id, payload),
-        deleteProject: (project_id: number) => ipcRenderer.invoke(IPC.PROJECTS_DELETE, project_id),
-        selectProject: (project_id: number) => ipcRenderer.invoke(IPC.PROJECTS_SELECT, project_id),
+        updateProject: (project_id: string, payload : {archive?: boolean; title?: string; active?: boolean, description?: string}) => ipcRenderer.invoke(IPC.PROJECTS_UPDATE, project_id, payload),
+        deleteProject: (project_id: string) => ipcRenderer.invoke(IPC.PROJECTS_DELETE, project_id),
     }
 })
