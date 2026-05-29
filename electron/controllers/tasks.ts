@@ -20,7 +20,7 @@ export function taskIpcHandlers({ taskService }: Services) {
         taskService.updateTask(payload)
     )
 
-    ipcMain.handle(IPC.TASKS_DELETE, (_, title) =>
-        taskService.deleteTask(title)
+    ipcMain.handle(IPC.TASKS_DELETE, (_, project_id: string) =>
+        taskService.deleteTask(project_id)
     )
 }
