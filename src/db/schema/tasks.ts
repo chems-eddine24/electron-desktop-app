@@ -9,5 +9,5 @@ export const tasks = pgTable("tasks", {
     status: text("status").default("doing"),
     created_at: timestamp("created_at").notNull().defaultNow(),
     updated_at: timestamp("updated_at"),
-    project_id: uuid("project_id").notNull().references(() => projects.project_id, {onDelete: "cascade"}),
+    project_id: uuid("project_id").references(() => projects.project_id, {onDelete: "cascade"}),
 });
