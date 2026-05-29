@@ -12,8 +12,8 @@ export function taskIpcHandlers({ taskService }: Services) {
         taskService.getAll()
     )
 
-    ipcMain.handle(IPC.TASKS_CREATE, (_, payload) =>
-        taskService.createTask(payload)
+    ipcMain.handle(IPC.TASKS_CREATE, (_, payload, project_id: string) =>
+        taskService.createTask(payload, project_id)
     )
 
     ipcMain.handle(IPC.TASKS_UPDATE, (_, payload) =>
