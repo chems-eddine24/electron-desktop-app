@@ -6,8 +6,6 @@ export const createProjectSchema = z.object({
     active:    z.boolean().default(true),
     description: z.string().min(10, 'Description is required').max(200, 'Description too long').trim(),
     archive:   z.boolean().default(false),
-    created_at: z.coerce.date().default(new Date()),
-    project_id: z.number().int().positive('Invalid ID'),
 })
 
 export const updateProjectSchema = z.object({
@@ -16,10 +14,8 @@ export const updateProjectSchema = z.object({
     active:     z.boolean().optional(),
     archive:    z.boolean().optional(),
 }).refine(
-    data => Object.keys(data).length > 1,
+    data => Object.values(data).some(v => v !== undefined),
     { message: 'At least one field must be provided' }
 )
 
-// Infer types from the schemas — no manual interface needed
-export type CreateProjectData = z.infer<typeof createProjectSchema>
-export type UpdateProjectData = z.infer<typeof updateProjectSchema>
+
