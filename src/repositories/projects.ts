@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
-import { projects, type Project } from '../db/schema/projects.ts'
+import { projects} from '../db/schema/projects.ts'
 import  { db } from '../db/index.ts'
-import type {UpdateProjectData, CreateProjectData} from '../shared/schemas/projects.ts'
+import type {CreateProjectData, UpdateProjectData, Project} from "../lib/types.ts"
 
 
 export class ProjectRepo {
@@ -20,12 +20,12 @@ export class ProjectRepo {
         return result[0]
     }
 
-    async update(project_id: number, data: UpdateProjectData) {
-        const [updatedProject] = await db.update(projects).set({...data, updated_at: new Date()}).where(eq(projects.project_id, project_id)).returning()
-        return updatedProject
+    async update(project_id: string, data: UpdateProjectData) {
+        const updatedProject = await db.update(projects).set({...data, updated_at: new Date()}).where(eq(projects.project_id, project_id)).returning()
+        return updatedProject[0]
     }
 
-    async findById(project_id: number): Promise<Project | null> {
+    async findById(project_id: string): Promise<Project | null> {
         const result = await db
             .select()
             .from(projects)
@@ -36,13 +36,13 @@ export class ProjectRepo {
     }
 
 
-    async searchProject(project_id: number) {
+    async searchProject(project_id: string) {
         const [project] = await db.select().from(projects).where(eq(projects.project_id, project_id
         ))
         return project ?? null
     }
 
-    async deleteProject(project_id: number) {
+    async deleteProject(project_id: string) {
         return db.delete(projects).where(eq(projects.project_id, project_id))
     }
 
