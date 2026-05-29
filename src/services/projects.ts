@@ -1,6 +1,5 @@
 import {ProjectRepo} from '../repositories/projects.ts'
-
-import type {CreateProjectData, UpdateProjectData} from '../shared/schemas/projects.ts'
+import type {Project, UpdateProjectData} from '../lib/types.ts'
 
 
 
@@ -13,7 +12,7 @@ export class ProjectService{
     constructor(project: ProjectRepo) {
         this.project = project
     }
-    async create(data: CreateProjectData){
+    async create(data: Project){
         const trimmedName = data.title.trim()
         if (!trimmedName)
             throw new Error("Project name is required");
@@ -24,15 +23,14 @@ export class ProjectService{
         return this.project.create(data)
     }
 
-    async update(project_id: number, data: UpdateProjectData){
+    async update(project_id: string, data: UpdateProjectData){
 
         const exists = await this.project.findById(project_id);
-        if (exists && exists.project_id !== project_id)
-            throw new Error("Another Project uses this name")
+        if (!exists) throw new Error("Project not found")
         return this.project.update(project_id, data)
     }
 
-    async delete(project_id: number){
+    async delete(project_id: string){
         const project = await this.project.findById(project_id)
         if (!project)
             throw new Error("Project does not exist")
