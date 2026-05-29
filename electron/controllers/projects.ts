@@ -19,7 +19,7 @@ export function projectIpcHandlers({projectService }: Services) {
         projectService.delete(project_id)
     )
 
-    ipcMain.handle(IPC.PROJECTS_UPDATE, (_, {payload, project_id}) =>
+    ipcMain.handle(IPC.PROJECTS_UPDATE, (_,project_id, payload) =>
         projectService.update(project_id, payload)
     )
 
