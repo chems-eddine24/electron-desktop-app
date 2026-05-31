@@ -12,6 +12,8 @@ export const projects = pgTable("projects", {
     updated_at: timestamp("updated_at")
 })
 
+export type ProjectSelect = typeof projects.$inferSelect;
+export type ProjectInsert = typeof projects.$inferInsert;
 
 
 

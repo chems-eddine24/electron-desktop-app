@@ -11,3 +11,5 @@ export const tasks = pgTable("tasks", {
     updated_at: timestamp("updated_at"),
     project_id: uuid("project_id").references(() => projects.project_id, {onDelete: "cascade"}),
 });
+export type Task           = typeof tasks.$inferSelect
+export type InsertTaskData = typeof tasks.$inferInsert
