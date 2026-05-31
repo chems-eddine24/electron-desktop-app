@@ -1,6 +1,6 @@
-import type { TaskRepo } from '../repositories/tasks.ts'
+import { TaskRepo } from '../repositories/tasks.ts'
 import type { Result } from '../shared/ipc_types.ts'
-import type { Task } from '../db/schema/tasks.ts'
+import type { Task } from '../lib/types.ts'
 import {createTaskSchema} from "../shared/schemas/tasks.ts";
 import {z} from 'zod'
 
@@ -20,13 +20,13 @@ export class TaskService {
             return this.fail(err)
         }
     }
-    async createTask(payload: unknown): Promise<Result<Task>> {
+    async createTask(payload: unknown, project_id: string): Promise<Result<Task>> {
         try {
             const parsed = createTaskSchema.safeParse(payload)
             if (!parsed.success) {
                 return {ok: false, error: parsed.error.message}
             }
-            const data = await this.taskRepo.createTask(parsed.data)
+            const data = await this.taskRepo.createTask(parsed.data, project_id)
             return {ok: true, data }
         }catch (err) {
             return this.fail(err)
