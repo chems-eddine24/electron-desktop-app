@@ -18,4 +18,6 @@ export const updateProjectSchema = z.object({
     { message: 'At least one field must be provided' }
 )
 
+export type CreateProjectData = z.infer<typeof createProjectSchema>
+export type UpdateProjectData = z.infer<typeof updateProjectSchema>
 

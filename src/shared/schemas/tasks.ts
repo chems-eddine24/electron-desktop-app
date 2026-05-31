@@ -16,3 +16,6 @@ export const updateTaskSchema = z.object({
     status: z.string().default("doing").optional(),
     updated_at: z.coerce.date().default(new Date()).optional(),
 })
+
+export type createTaskData = z.infer<typeof createTaskSchema>
+export type updateTaskData = z.infer<typeof updateTaskSchema>
