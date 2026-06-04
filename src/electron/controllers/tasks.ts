@@ -9,7 +9,7 @@ interface Services {
 
 export function taskIpcHandlers({ taskService }: Services) {
     ipcMain.handle(IPC.TASKS_GET_ALL, () =>
-        taskService.getAll()
+        taskService.getAllTasks()
     )
 
     ipcMain.handle(IPC.TASKS_CREATE, (_, payload, project_id: string) =>

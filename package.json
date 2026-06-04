@@ -2,12 +2,12 @@
   "name": "todo-app",
   "private": true,
   "version": "1.0.0",
-  "main": "electron/main.ts",
+  "main": "src/electron/main.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "electron": "tsx electron/main.ts",
-    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron": "tsx src/electron/main.ts",
+    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && src/electron .\"",
     "build": "rolldown -c",
     "lint": "eslint .",
     "preview": "vite preview"
