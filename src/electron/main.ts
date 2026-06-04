@@ -1,10 +1,10 @@
 
 import path from 'path';
 import { app, BrowserWindow} from "electron";
-import { TaskService } from "../src/services/tasks.ts";
-import { TaskRepo } from "../src/repositories/tasks.ts"
-import {ProjectRepo} from "../src/repositories/projects.ts"
-import {ProjectService} from "../src/services/projects.ts"
+import { TaskService } from "./services/tasks.ts";
+import { TaskRepo } from "./repositories/tasks.ts"
+import {ProjectRepo} from "./repositories/projects.ts"
+import {ProjectService} from "./services/projects.ts"
 import { fileURLToPath } from "url";
 import {projectIpcHandlers} from "./controllers/projects.ts";
 import {taskIpcHandlers} from "./controllers/tasks.ts";

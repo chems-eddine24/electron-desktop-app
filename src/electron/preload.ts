@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { IPC } from "../src/shared/ipc_channels.ts";
+import { IPC } from "./shared/ipc_channels.ts";
 console.log("Preload loaded")
 contextBridge.exposeInMainWorld('electronApi', {
     tasks: {
