@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
-import { IPC } from '../../src/shared/ipc_channels.ts'
-import type { TaskService } from '../../src/services/tasks.ts'
+import { IPC } from '../shared/ipc_channels.ts'
+import type { TaskService } from '../services/tasks.ts'
 
 
 interface Services {

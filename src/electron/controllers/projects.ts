@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
-import { IPC } from '../../src/shared/ipc_channels.ts'
-import type {ProjectService} from '../../src/services/projects.ts'
+import { IPC } from '../shared/ipc_channels.ts'
+import type {ProjectService} from '../services/projects.ts'
 
 interface Services {
     projectService: ProjectService
