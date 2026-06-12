@@ -8,7 +8,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/frontend/work-organizer-ui/*"]
     },
     "allowImportingTsExtensions": true,
     "strict": true
