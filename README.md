@@ -33,7 +33,7 @@ $ npx drizzle-kit push
 ```bash
 $ npm run dev
 ```
-#### the main server is running at 5713 port so make sure nothing uses this port already, if yes you can either change the port or kill whatever is using the 5731 port with:
+#### the main server is running at 5173 port so make sure nothing uses this port already, if yes you can either change the port or kill whatever is using the 5173 port with:
 ```bash
 $ sudo kill -9 $(sudo lsof -t -i :5173)
 ```
