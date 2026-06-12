@@ -4,13 +4,13 @@ import { z } from 'zod'
 export const createProjectSchema = z.object({
     title:     z.string().min(1, 'Title is required').max(200, 'Title too long').trim(),
     active:    z.boolean().default(true),
-    description: z.string().min(10, 'Description is required').max(200, 'Description too long').trim(),
+    description: z.string().max(2000, 'Description too long').trim().default(''),
     archive:   z.boolean().default(false),
 })
 
 export const updateProjectSchema = z.object({
     title:      z.string().min(1).max(200).trim().optional(),
-    description: z.string().min(10, 'Description is required').max(200, 'Description too long').trim().optional(),
+    description: z.string().max(2000, 'Description too long').trim().optional(),
     active:     z.boolean().optional(),
     archive:    z.boolean().optional(),
 }).refine(

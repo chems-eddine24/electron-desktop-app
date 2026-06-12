@@ -11,7 +11,7 @@ html, body, #root {
 body {
     font-family: Inter, system-ui, Arial, sans-serif;
     background: #0f172a;
-    color: #e2e8f0;
+    color: rgb(44 40 42 / 0.51);
 }
 
 button, input, textarea, select {
@@ -150,16 +150,26 @@ textarea {
 }
 
 .primaryBtn {
-    background: #4f46e5;
+    transition-duration: 0.4s;
+    background: rgb(161 179 134 / 0.63);
+    color: white;
+    border: 1px solid #334155
+}
+.primaryBtn:hover {
+    background: #1f2937;
     color: white;
 }
 
 .secondaryBtn {
     background: #1f2937;
+    transition-duration: 0.4s;
     color: #e2e8f0;
     border: 1px solid #334155;
 }
-
+.secondaryBtn:hover{
+    background-color: #14532d;
+    color: #0b1220;
+}
 .primaryBtn:disabled, .secondaryBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -220,8 +230,8 @@ textarea {
     text-transform: capitalize;
 }
 
-.status-todo { background: #312e81; }
-.status-in_progress { background: #854d0e; }
+.status-paused { background: #812e2e; }
+.status-doing { background: #854d0e; }
 .status-done { background: #14532d; }
 
 .hint {

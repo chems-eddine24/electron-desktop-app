@@ -1,15 +1,8 @@
-
-import './App.css'
-
-import Home from "./components/Home";
+import './index.css'
+import { WorkOrganizerApp } from '@/components/work-organizer/WorkOrganizerApp'
 
 function App() {
-
-    return (
-        <div>
-           <Home />
-        </div>
-    )
+  return <WorkOrganizerApp />
 }
 
 export default App
