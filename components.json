@@ -13,10 +13,10 @@
   "iconLibrary": "lucide",
   "rtl": false,
   "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
+    "components": "src/frontend/work-organizer-ui/components",
+    "utils": "src/frontend/work-organizer-ui/lib/utils",
+    "lib": "src/frontend/work-organizer-ui/lib",
+    "hooks": "src/frontend/work-organizer-ui/hooks"
   },
   "menuColor": "default",
   "menuAccent": "subtle",
